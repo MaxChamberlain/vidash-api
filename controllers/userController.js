@@ -42,6 +42,10 @@ const registerUser = async (req, res, next) => {
                     token: generateToken(user._id),
                     company_code: user.company_code,
                     company_name: user.company_name,
+                    theme_preference: user.theme_preference,
+                    canSeeDollarAmounts: user.canSeeDollarAmounts,
+                    canExportData: user.canExportData,
+                    canDrillDown: user.canDrillDown,
                 })
             }else{
                 const err = new Error('An Error Has Occurred. (Error Code: Brimstone)')
@@ -57,21 +61,25 @@ const registerUser = async (req, res, next) => {
 
 const authUser = async (req, res, next) => {
     try{
-        const { email, password } = req.body
-    
-        const user = await User.findOne({ email })
+        const { email_address, password } = req.body
+
+        const user = await User.findOne({ email_address })
     
         if(user && (await user.matchPassword(password))){
             res.status(201).json({
                 _id: user._id,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                email_address: user.email,
+                email_address: user.email_address,
                 isAdmin: user.isAdmin,
                 canManage: user.canManage,
                 token: generateToken(user._id),
-                isApproved: user.isApproved,
                 company_code: user.company_code,
+                company_name: user.company_name,
+                theme_preference: user.theme_preference,
+                canSeeDollarAmounts: user.canSeeDollarAmounts,
+                canExportData: user.canExportData,
+                canDrillDown: user.canDrillDown,
             })
         }else{
             res.status(400).json({text: 'Invalid Email or Password'})
@@ -140,6 +148,40 @@ const sendInvite = async (req, res, next) => {
         });
 }
 
+const updateUser = async (req, res, next) =>{
+    try{
+        const { _id, args } = req.body
+
+        const user = await User.updateOne({ _id }, args, { new: true })
+
+        if(user){
+            res.status(200).json(user)
+        }else{
+            res.status(400).json({text: 'An Error Has Occurred. (Error Code: Pigeon)'})
+        }
+    }catch(e){
+        console.log(e)
+        res.status(400).json({text: 'An Error Has Occurred. (Error Code: Pigeon)'})
+    }
+}
+
+const deleteUser = async (req, res, next) =>{
+    try{
+        const { _id } = req.body
+
+        const user = await User.deleteOne({ _id })
+
+        if(user){
+            res.status(200).json(user)
+        }else{
+            res.status(400).json({text: 'An Error Has Occurred. (Error Code: Pigeon)'})
+        }
+    }catch(e){
+        console.log(e)
+        res.status(400).json({text: 'An Error Has Occurred. (Error Code: Pigeon)'})
+    }
+}
 
 
-module.exports = { registerUser, authUser, getUsersInCompany, getUserById, sendInvite }
+
+module.exports = { registerUser, authUser, getUsersInCompany, getUserById, sendInvite, updateUser, deleteUser }

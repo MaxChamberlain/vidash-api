@@ -1,5 +1,6 @@
 const { getCompanies } = require('../controllers/companyController')
 const { getPicks } = require('./upsertPickData')
+const { getPacks } = require('./upsertPackData')
 
 const startConnector = async () => {
     console.log('Starting Connector')
@@ -20,6 +21,7 @@ const startConnector = async () => {
             }
         })
     }, 36000)
+
     console.log('Starting Pick Updater')
     setInterval(() => 
     companyTokens.forEach(company => {
@@ -27,6 +29,14 @@ const startConnector = async () => {
             getPicks(company.refresh_token, company.company_code)
         }
     }), 2000)
+
+    console.log('Starting Pack Updater')
+    setInterval(() => 
+    companyTokens.forEach(company => {
+        if(company.refresh_token){
+            getPacks(company.refresh_token, company.company_code)
+        }
+    }), 5000)
 
 
 }

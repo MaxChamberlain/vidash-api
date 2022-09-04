@@ -38,6 +38,21 @@ const userSchema = mongoose.Schema(
             required: true,
             default: 'light'
         },
+        canSeeDollarAmounts: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        canExportData:{
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        canDrillDown:{
+            type: Boolean,
+            required: true,
+            default: false
+        },
     },
     {
         timestamps: true

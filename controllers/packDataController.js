@@ -1,5 +1,5 @@
 const { getClient } = require('../utils/connectToMongoDirect');
-const { verify } = require('../utils/generateToken');
+const { getPackage } = require('../utils/upsertPackageData');
 
 const getPacks = async (req, res) => {
     const { company_code, startDate, endDate } = req.body;
@@ -17,16 +17,18 @@ const getPacks = async (req, res) => {
 }
 
 const insertPacks = async (req, res) => {
-    const { company_code, packs } = req.body;
-    packs.forEach(e => {
-        e.createdAt = new Date().toISOString();
-        e.updatedAt = new Date().toISOString();
-    })
+    const { company_code, packs, order_id, refresh_token } = req;
+    packs.createdAt = new Date().toISOString();
+    packs.updatedAt = new Date().toISOString();
     const client = getClient();
     const db = client.db();
     const collection = db.collection('packs-' + company_code);
-    const data = await collection.insertMany(packs);
-    res.status(201).send({message: 'Pack Jobs Inserted'});
+    const exists = await collection.findOne({ id: packs.id });
+    if(!exists){
+        const data = await collection.insertOne(packs);
+        console.log('pack inserted')
+        getPackage(order_id, refresh_token, company_code);
+    }
 }
 
 module.exports = { getPacks, insertPacks }
