@@ -132,7 +132,7 @@ const sendInvite = async (req, res, next) => {
           html: `<div style="position: absolute; padding: 40px; top: 0; left:0; right:0; bottom:0; display: flex; align-items: center; flex-direction: column;">
                     <div style="width: 100%; height: fit-content; padding: 5px 0; border: 2px solid black; font-size: 40px; text-align: center; display: flex">
                         <div>ViDash</div>
-                        <img src='https://imgur.com/a/Vw1h1I3' style="width: 50px; height: 50px; margin-left: 10px;"/>
+                        <img src='https://i.imgur.com/hXbLNtw.png' style="width: 50px; height: 50px; margin-left: 10px;"/>
                     </div>
                     <div style="width: 100%; padding: 20px; margin-top: 40px; font-size: 30px;">
                         <div>You have been invited ${req.body.sender && `by ${req.body.sender} `} to join a company on ViDash.</div>
