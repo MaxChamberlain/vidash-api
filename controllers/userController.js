@@ -130,7 +130,7 @@ const sendInvite = async (req, res, next) => {
           subject: 'A Notification From ViDash',
           text: 'That was easy!',
           html: `<div style="position: absolute; padding: 40px; top: 0; left:0; right:0; bottom:0; display: flex; align-items: center; flex-direction: column;">
-                    <div style="width: 100%; height: fit-content; padding: 5px 0; border: 2px solid black; font-size: 40px; text-align: center; display: flex; justify-content: center">
+                    <div style="width: 100%; height: fit-content; padding: 5px 0; font-size: 40px; text-align: center; display: flex; justify-content: center; align-items: center">
                         <div>ViDash</div>
                         <img src='https://i.imgur.com/hXbLNtw.png' style="width: 50px; height: 50px; margin-left: 10px;"/>
                     </div>
