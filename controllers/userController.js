@@ -129,8 +129,19 @@ const sendInvite = async (req, res, next) => {
           to: email,   // list of receivers
           subject: 'A Notification From ViDash',
           text: 'That was easy!',
-          html: `<b>You have been invited ${req.body.sender && `by ${req.body.sender} `} to join a company on ViDash.</b>
-                 <br> <a href='http://vidash.us/register?id=${req.body.company_code}'>Click to join</a> <br/>`,
+          html: `<div style="position: absolute; padding: 40px; top: 0; left:0; right:0; bottom:0; display: flex; align-items: center; flex-direction: column;">
+                    <div style="width: 100%; height: fit-content; padding: 5px 0; border: 2px solid black; font-size: 40px; text-align: center;">
+                        ViDash
+                    </div>
+                    <div style="width: 100%; padding: 20px; margin-top: 40px; font-size: 30px;">
+                        <div>You have been invited ${req.body.sender && `by ${req.body.sender} `} to join a company on ViDash.</div>
+                        <a href='http://vidash.us/register?id=${req.body.company_code}'>
+                            <div style="padding: 20px; background-color: #ffbb00; text-decoration: none; color: black; text-align: center; border-radius: 10px; margin-top: 30px;">
+                                Click to join
+                            </div>
+                        </a>
+                    </div>
+                </div>`,
         }
         const transporter = nodemailer.createTransport({
             port: 465,               // true for 465, false for other ports
