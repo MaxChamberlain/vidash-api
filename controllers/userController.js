@@ -26,7 +26,7 @@ const registerUser = async (req, res, next) => {
             console.log('Creating User')
 
             const user = await User.create({
-                first_name, last_name, email_address, password, company_code: code
+                first_name, last_name, email_address: email_address.toLowerCase(), password, company_code: code
             })
     
             console.log('Returning User')
@@ -36,7 +36,7 @@ const registerUser = async (req, res, next) => {
                     _id: user._id,
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    email_address: user.email_address,
+                    email_address: user.email_address.toLowerCase(),
                     isAdmin: user.isAdmin,
                     canManage: user.canManage,
                     token: generateToken(user._id),
@@ -63,14 +63,14 @@ const authUser = async (req, res, next) => {
     try{
         const { email_address, password } = req.body
 
-        const user = await User.findOne({ email_address })
+        const user = await User.findOne({ email_address: email_address.toLowerCase() })
     
         if(user && (await user.matchPassword(password))){
             res.status(201).json({
                 _id: user._id,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                email_address: user.email_address,
+                email_address: user.email_address.toLowerCase(),
                 isAdmin: user.isAdmin,
                 canManage: user.canManage,
                 token: generateToken(user._id),
