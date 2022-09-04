@@ -64,7 +64,6 @@ const authUser = async (req, res, next) => {
         const { email_address, password } = req.body
 
         const user = await User.findOne({ email_address: email_address.toLowerCase() })
-        console.log(password, email_address)
     
         if(user && (await user.matchPassword(password))){
             res.status(201).json({
@@ -161,6 +160,63 @@ const sendInvite = async (req, res, next) => {
         });
 }
 
+const requestChangePassword = async (req, res, next) => {
+    const { email, password } = req.body
+
+    const user = await User.findOne({ email_address: email.toLowerCase() })
+
+    if(user && (await user.matchPassword(password))){
+        const mailData = {
+            from: 'do-not-reply-vidash@gmail.com',  // sender address
+            to: email,   // list of receivers
+            subject: 'A Notification From ViDash',
+            text: 'That was easy!',
+            html: `<div style="position: absolute; padding: 40px; top: 0; left:0; right:0; bottom:0; display: flex; align-items: center; flex-direction: column;">
+                        <div style="width: 100%; height: fit-content; padding: 5px 0; font-size: 40px; text-align: center; display: flex; justify-content: center; align-items: center">
+                            <div>ViDash</div>
+                            <img src='https://i.imgur.com/hXbLNtw.png' style="width: 50px; height: 50px; margin-left: 10px;"/>
+                        </div>
+                        <div style="width: 100%; padding: 20px; margin-top: 40px; font-size: 30px;">
+                            <div>You have been requested to reset your ViDash password.</div>
+                            <a href='http://vidash.us/resetpassword?id=${user._id}'>
+                                <div style="padding: 20px; background-color: #ffbb00; text-decoration: none; color: black; text-align: center; border-radius: 10px; margin-top: 30px;">
+                                    Reset Password
+                                </div>
+                            </a>
+                        </div>
+                    </div>`,
+        }
+        const transporter = nodemailer.createTransport({
+            port: 465,               // true for 465, false for other ports
+            host: "smtp.gmail.com",
+            auth: {
+                    user: 'do.not.reply.vidash@gmail.com',
+                    pass: 'ivzrqzsavfxsvvpk',
+                },
+            secure: true,
+        });
+        transporter.sendMail(mailData, function (err, info) {
+            if(err)
+            console.log(err)
+            else
+            console.log(info);
+        });
+    }
+}
+
+const resetPassword = async (req, res, next) => {
+    const { _id, password } = req.body
+    let user = await User.findOne({ _id })
+    if(user){
+        user.password = password
+        await user.save()
+        res.status(200).json({text: 'Password Reset Successfully'})
+    }else{
+        res.status(400).json({text: 'An Error Has Occurred. (Error Code: Pigeon)'})
+    }
+}
+
+
 const updateUser = async (req, res, next) =>{
     try{
         const { _id, args } = req.body
@@ -197,4 +253,4 @@ const deleteUser = async (req, res, next) =>{
 
 
 
-module.exports = { registerUser, authUser, getUsersInCompany, getUserById, sendInvite, updateUser, deleteUser }
+module.exports = { registerUser, authUser, getUsersInCompany, getUserById, sendInvite, updateUser, deleteUser, requestChangePassword, resetPassword }
