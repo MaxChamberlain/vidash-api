@@ -4,7 +4,7 @@ const { registerUser, authUser, getUsersInCompany, getUserById, sendInvite, upda
 
 router.post('/register', registerUser)
 router.post('/login', authUser)
-router.post('/getall', getUsersInCompany)
+router.post('/getall',getUsersInCompany)
 router.post('/getone', getUserById)
 router.post('/invite', sendInvite)
 router.post('/update', updateUser)

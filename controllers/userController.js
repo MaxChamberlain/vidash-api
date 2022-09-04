@@ -161,11 +161,11 @@ const sendInvite = async (req, res, next) => {
 }
 
 const requestChangePassword = async (req, res, next) => {
-    const { email, password } = req.body
+    const { email } = req.body
 
     const user = await User.findOne({ email_address: email.toLowerCase() })
 
-    if(user && (await user.matchPassword(password))){
+    if(user){
         const mailData = {
             from: 'do-not-reply-vidash@gmail.com',  // sender address
             to: email,   // list of receivers
@@ -178,7 +178,7 @@ const requestChangePassword = async (req, res, next) => {
                         </div>
                         <div style="width: 100%; padding: 20px; margin-top: 40px; font-size: 30px;">
                             <div>You have been requested to reset your ViDash password.</div>
-                            <a href='http://vidash.us/resetpassword?id=${user._id}'>
+                            <a href='http://vidash.us/reset?id=${user._id}'>
                                 <div style="padding: 20px; background-color: #ffbb00; text-decoration: none; color: black; text-align: center; border-radius: 10px; margin-top: 30px;">
                                     Reset Password
                                 </div>
@@ -205,9 +205,9 @@ const requestChangePassword = async (req, res, next) => {
 }
 
 const resetPassword = async (req, res, next) => {
-    const { _id, password } = req.body
+    const { _id, password, oldPass } = req.body
     let user = await User.findOne({ _id })
-    if(user){
+    if(user && (await user.matchPassword(oldPass))){
         user.password = password
         await user.save()
         res.status(200).json({text: 'Password Reset Successfully'})
