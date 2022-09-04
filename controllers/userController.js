@@ -64,6 +64,7 @@ const authUser = async (req, res, next) => {
         const { email_address, password } = req.body
 
         const user = await User.findOne({ email_address: email_address.toLowerCase() })
+        console.log(password, user)
     
         if(user && (await user.matchPassword(password))){
             res.status(201).json({
