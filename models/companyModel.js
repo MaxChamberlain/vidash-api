@@ -16,7 +16,12 @@ const companySchema = mongoose.Schema(
             required: false,
             unique: true,
             default: ''
-        }
+        },
+        uses_dhl: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
     },
     {
         timestamps: true

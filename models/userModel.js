@@ -53,6 +53,22 @@ const userSchema = mongoose.Schema(
             required: true,
             default: false
         },
+        // end of day reports
+        picking_packing_report: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        package_report: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        timezone: {
+            type: String,
+            required: true,
+            default: 'America/New_York'
+        }
     },
     {
         timestamps: true

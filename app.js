@@ -6,6 +6,7 @@ var logger = require('morgan');
 require('dotenv').config();
 const { connectDB } = require('./config/db');
 const { verify } = require('./utils/generateToken');
+const scheduleReports = require('./utils/scheduleReports');
 connectDB()
 
 var startConnector = require('./utils/getDataFunction');
@@ -17,6 +18,12 @@ var companyRouter = require('./routes/company');
 var pickDataRouter = require('./routes/pickData');
 var packDataRouter = require('./routes/packData');
 var packageDataRouter = require('./routes/packageData');
+
+// schedule end of day reports
+
+scheduleReports();
+
+// create app
 
 var app = express();
 

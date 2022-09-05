@@ -16,6 +16,21 @@ const getPicks = async (req, res) => {
     res.status(201).send(data);
 }
 
+const getPicksLocal = async (req, res) => {
+    const { company_code, startDate, endDate } = req;
+    const client = getClient();
+    const db = client.db();
+    const collection = db.collection('picks-' + company_code);
+    const data = await collection.find({
+        created_at: {
+            $gte: new Date(startDate).toISOString(),
+            $lte: new Date(endDate).toISOString()
+        }
+    }).toArray();
+    console.log(data)
+    return data;
+}
+
 const insertPicks = async (req, res) => {
     const { company_code, picks } = req;
     picks.createdAt = new Date().toISOString();
@@ -30,4 +45,4 @@ const insertPicks = async (req, res) => {
     }
 }
 
-module.exports = { getPicks, insertPicks }
+module.exports = { getPicks, getPicksLocal, insertPicks }
