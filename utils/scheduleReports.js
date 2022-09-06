@@ -7,8 +7,8 @@ const scheduleReports = async () => {
     const users = await getUsers()
     const timezones = [...new Set(users.pickspacks.map(user => user.timezone))]
 
-    timezones.forEach(timezone => {
-        console.log('starting cron process for ', timezone)
+    timezones.forEach((timezone, i) => {
+        console.log(i + ': starting cron process for ', timezone)
         cron.schedule('0 17 * * *', getUsersAndSend, 
         {
             scheduled: true,

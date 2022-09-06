@@ -39,6 +39,7 @@ async function getPacks(refresh_token, company_code){
             `}
         });
         const data = await res;
+        console.log('data ytyt', data.data.errors)
         data.data.data.packs_per_day.data.edges.forEach(e => {
             try{
                 insertPacks({
