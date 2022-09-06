@@ -41,25 +41,42 @@ const sendPickPackEmail = async (user) => {
         endDate: new Date().toISOString()
     })
     const quantity_picked = picks.reduce((acc, pick) => {
-        return acc + pick.quantity_picked
+        return acc + pick.picked_quantity
     }, 0)
-    const orders_picked = [...new Set(picks.map(pick => pick.order_id))].length
+    const orders_picked = [...new Set(picks.map(pick => pick.order_number))].length
+    const pickers = [...new Set(picks.map(pick => `${pick.user_first_name} ${pick.user_last_name}`))]
+    console.log(pickers)
+    let pickerData = []
+    const picksByPicker = pickers.forEach(picker => {
+        const filteredPicks = picks.filter(pick => `${pick.user_first_name} ${pick.user_last_name}` === picker)
+        pickerData.push(filteredPicks.reduce((a, b) => {
+            let temp = a
+            temp.picked_quantity += b.picked_quantity
+            temp.orders_picked.push(b.order_number)
+            return a
+        }, {picked_quantity: 0, orders_picked: [], picker: picker}))
+    })
     const mailData = {
         from: 'do-not-reply-vidash@gmail.com',  // sender address
-        to: user.email_address,   // list of receivers
+        to: user[0].email_address,   // list of receivers
         subject: 'A Notification From ViDash',
         text: 'That was easy!',
-        html: `<div style="position: absolute; padding: 40px; top: 0; left:0; right:0; bottom:0; display: flex; align-items: center; flex-direction: column;">
+        html: `<div style="position: absolute; padding: 40px; top: 0; left:0; right:0; bottom:0; display: block; align-items: center; flex-direction: column;">
                     <div style="width: 100%; height: fit-content; padding: 5px 0; font-size: 40px; text-align: center; display: flex; justify-content: center; align-items: center">
                         <div>ViDash</div>
                         <img src='https://i.imgur.com/hXbLNtw.png' style="width: 50px; height: 50px; margin-left: 10px;"/>
                     </div>
                     <div style="width: 100%; padding: 20px; margin-top: 40px; font-size: 30px;">
-                        <div>${user.first_name}, here is your scheduled Picking and Packing report for today.</div>
+                        <div>${user[0].first_name}, here is your scheduled Picking and Packing report for today.</div>
                         <br />
                         <div>
-                            ${orders_picked} orders have been picked today, and <br />
-                            ${quantity_picked} items.
+                            There was a total of ${quantity_picked} items picked today across ${orders_picked} orders.
+                            <br />
+                            The best picker in terms of items was ${pickerData.sort((a, b) => b.picked_quantity - a.picked_quantity)[0].picker}, with
+                            ${pickerData.sort((a, b) => b.picked_quantity - a.picked_quantity)[0].picked_quantity} items picked across ${pickerData.sort((a, b) => b.picked_quantity - a.picked_quantity)[0].orders_picked.length} orders.
+                            <br />
+                            The best picker in terms of orders was ${pickerData.sort((a, b) => b.orders_picked.length - a.orders_picked.length)[0].picker}, with
+                            ${pickerData.sort((a, b) => b.orders_picked.length - a.orders_picked.length)[0].orders_picked.length} orders picked across ${pickerData.sort((a, b) => b.orders_picked.length - a.orders_picked.length)[0].picked_quantity} items.
                         </div>
                     </div>
                 </div>`,
