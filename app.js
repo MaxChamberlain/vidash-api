@@ -18,6 +18,7 @@ var companyRouter = require('./routes/company');
 var pickDataRouter = require('./routes/pickData');
 var packDataRouter = require('./routes/packData');
 var packageDataRouter = require('./routes/packageData');
+var testEmailRouter = require('./routes/sendTestEmail');
 
 // schedule end of day reports
 
@@ -52,6 +53,7 @@ app.use('/company', companyRouter);
 app.use('/pickdata', verify, pickDataRouter);
 app.use('/packdata', verify, packDataRouter);
 app.use('/packagedata', verify, packageDataRouter);
+app.use('/sendtestemail', testEmailRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
