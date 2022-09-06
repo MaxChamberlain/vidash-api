@@ -28,7 +28,7 @@ const startConnector = async () => {
         if(company.refresh_token){
             getPicks(company.refresh_token, company.company_code)
         }
-    }), 2000)
+    }), 1000)
 
     console.log('Starting Pack Updater')
     setInterval(() => 
@@ -36,7 +36,7 @@ const startConnector = async () => {
         if(company.refresh_token){
             getPacks(company.refresh_token, company.company_code)
         }
-    }), 4000)
+    }), 2000)
 
 
 }
