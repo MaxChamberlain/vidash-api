@@ -46,6 +46,9 @@ const sendPickPackEmail = async (req, res, next) => {
                             <br />
                             The best picker in terms of items was ${pickerData.sort((a, b) => b.picked_quantity - a.picked_quantity)[0].picker}, with
                             ${pickerData.sort((a, b) => b.picked_quantity - a.picked_quantity)[0].picked_quantity} items picked across ${pickerData.sort((a, b) => b.picked_quantity - a.picked_quantity)[0].orders_picked.length} orders.
+                            <br />
+                            The best picker in terms of orders was ${pickerData.sort((a, b) => b.orders_picked.length - a.orders_picked.length)[0].picker}, with
+                            ${pickerData.sort((a, b) => b.orders_picked.length - a.orders_picked.length)[0].orders_picked.length} orders picked across ${pickerData.sort((a, b) => b.orders_picked.length - a.orders_picked.length)[0].picked_quantity} items.
                         </div>
                     </div>
                 </div>`,
