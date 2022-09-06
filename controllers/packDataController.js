@@ -12,7 +12,6 @@ const getPacks = async (req, res) => {
             $lte: new Date(endDate).toISOString()
         }
     }).toArray();
-    console.log(data)
     res.status(201).send(data);
 }
 

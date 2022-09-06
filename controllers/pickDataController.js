@@ -12,7 +12,6 @@ const getPicks = async (req, res) => {
             $lte: new Date(endDate).toISOString()
         }
     }).toArray();
-    console.log(data)
     res.status(201).send(data);
 }
 
@@ -27,7 +26,6 @@ const getPicksLocal = async (req, res) => {
             $lte: new Date(endDate).toISOString()
         }
     }).toArray();
-    console.log(data)
     return data;
 }
 
