@@ -40,7 +40,6 @@ async function getPicks(refresh_token, company_code){
             `}
         });
         const data = await res;
-        console.log('credits left: ', data.data.extensions.throttling.user_quota.credits_remaining)
         data.data.data.picks_per_day.data.edges.forEach(e => {
             try{
                 insertPicks({
