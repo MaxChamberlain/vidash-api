@@ -5,10 +5,12 @@ const dhlZoneSchema = mongoose.Schema(
         origin_zip: {
             type: String,
             required: true,
+            index: true,
         },
         destination_zip: {
             type: String,
             required: true,
+            index: true,
         },
         zone_number: {
             type: Number,
