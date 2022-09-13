@@ -51,6 +51,9 @@ async function getPackage(order_id, refresh_token, company_code){
                                 }
                                 created_date
                                 shipping_labels{
+                                        dimensions{
+                                            weight
+                                        }
                                         created_date
                                         account_id
                                         shipment_id
