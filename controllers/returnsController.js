@@ -21,8 +21,8 @@ const insertReturns = async (req, res) => {
     if(!exists){
         await collection.insertOne({
             ...req.body,
-            createdAt = new Date().toISOString(),
-            updatedAt = new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
         });
         console.log('returns inserted')
     }
