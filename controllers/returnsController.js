@@ -14,20 +14,21 @@ const getReturns = async (req, res) => {
 }
 
 const insertReturns = async (req, res) => {
-    console.log('params', req.params)
     const client = getClient();
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
     const exists = await collection.findOne({ id: req.body.id });
-    if(!exists){
+    if(!exists && !req.body.id.includes('undefined') && !req.body.id.includes('12345')) {
         await collection.insertOne({
             ...req.body,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
         });
         console.log('returns inserted')
+        res.status(201).send('returns inserted');
+    }else{
+        res.status(201).send('returns already exists');
     }
-    res.status(201).send('returns inserted');
 }
 
 module.exports = { getReturns, insertReturns }
