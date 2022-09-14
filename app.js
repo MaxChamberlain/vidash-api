@@ -57,7 +57,7 @@ app.use('/packdata', verify, packDataRouter);
 app.use('/packagedata', verify, packageDataRouter);
 app.use('/sendtestemail', testEmailRouter);
 app.use('/dhl_zones', dhlZonesRouter);
-app.use('/loopreturns/:id', loopReturnsRouter);
+app.use('/loopreturns', loopReturnsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

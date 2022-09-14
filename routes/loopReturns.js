@@ -3,7 +3,7 @@ const router = express.Router();
 const { getReturns, insertReturns } = require('../controllers/returnsController');
 
 
-router.post('/insert', insertReturns)
-router.post('/get', getReturns)
+router.post('/:id/insert', insertReturns)
+router.post('/:id/get', getReturns)
 
 module.exports = router;
