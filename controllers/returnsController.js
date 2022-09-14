@@ -22,7 +22,8 @@ const insertReturns = async (req, res) => {
         await collection.insertOne({
             ...req.body,
             createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
+            closed: false
         });
         console.log('returns inserted')
         res.status(201).send('returns inserted');
@@ -31,4 +32,33 @@ const insertReturns = async (req, res) => {
     }
 }
 
-module.exports = { getReturns, insertReturns }
+updateReturns = async (req, res) => {
+    const client = getClient();
+    const db = client.db();
+    const collection = db.collection('loop-returns-' + req.params.id);
+    const exists = await collection.findOne({ id: req.body.id });
+    if(exists) {
+        if(req.body.state === 'closed') {
+            await collection.updateOne({ id: req.body.id }, {
+                $set: {
+                    ...req.body,
+                    updatedAt: new Date().toISOString(),
+                    closed: new Date().toISOString()
+                }
+            });
+        }else{
+            await collection.updateOne({ id: req.body.id }, {
+                $set: {
+                    ...req.body,
+                    updatedAt: new Date().toISOString()
+                }
+            });
+        }
+        console.log('returns updated')
+        res.status(201).send('returns updated');
+    }else{
+        res.status(201).send('returns does not exist');
+    }
+}
+
+module.exports = { getReturns, insertReturns, updateReturns }
