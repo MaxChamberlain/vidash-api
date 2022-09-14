@@ -32,7 +32,7 @@ const insertReturns = async (req, res) => {
     }
 }
 
-updateReturns = async (req, res) => {
+const updateReturns = async (req, res) => {
     const client = getClient();
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
