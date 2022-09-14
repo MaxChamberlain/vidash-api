@@ -17,7 +17,7 @@ const insertReturns = async (req, res) => {
     const client = getClient();
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
-    const exists = await collection.findOne({ id: returns.id });
+    const exists = await collection.findOne({ id: req.body.id });
     if(!exists){
         await collection.insertOne({
             ...req.body,
