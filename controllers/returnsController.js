@@ -14,6 +14,7 @@ const getReturns = async (req, res) => {
 }
 
 const insertReturns = async (req, res) => {
+    console.log('params', req.params)
     const client = getClient();
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
