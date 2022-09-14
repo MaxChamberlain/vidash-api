@@ -14,14 +14,18 @@ const getReturns = async (req, res) => {
 }
 
 const insertReturns = async (req, res) => {
-    returns.createdAt = new Date().toISOString();
+    returns.;
     returns.updatedAt = new Date().toISOString();
     const client = getClient();
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
     const exists = await collection.findOne({ id: returns.id });
     if(!exists){
-        await collection.insertOne(req.body);
+        await collection.insertOne({
+            ...req.body,
+            createdAt = new Date().toISOString(),
+            updatedAt = new Date().toISOString()
+        });
         console.log('returns inserted')
     }
 }
