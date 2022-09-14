@@ -14,8 +14,6 @@ const getReturns = async (req, res) => {
 }
 
 const insertReturns = async (req, res) => {
-    returns.;
-    returns.updatedAt = new Date().toISOString();
     const client = getClient();
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
