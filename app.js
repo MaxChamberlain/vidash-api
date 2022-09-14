@@ -20,6 +20,7 @@ var packDataRouter = require('./routes/packData');
 var packageDataRouter = require('./routes/packageData');
 var testEmailRouter = require('./routes/sendTestEmail');
 var dhlZonesRouter = require('./routes/dhl_zones');
+var loopReturnsRouter = require('./routes/loopReturns');
 
 // schedule end of day reports
 
@@ -56,6 +57,7 @@ app.use('/packdata', verify, packDataRouter);
 app.use('/packagedata', verify, packageDataRouter);
 app.use('/sendtestemail', testEmailRouter);
 app.use('/dhl_zones', dhlZonesRouter);
+app.use('/loopreturns/:id', loopReturnsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
