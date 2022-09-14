@@ -26,6 +26,7 @@ const insertReturns = async (req, res) => {
         });
         console.log('returns inserted')
     }
+    res.status(201).send('returns inserted');
 }
 
 module.exports = { getReturns, insertReturns }
