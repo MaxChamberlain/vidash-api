@@ -22,6 +22,11 @@ const companySchema = mongoose.Schema(
             required: true,
             default: false
         },
+        uses_loop_returns: {
+            type: Boolean,
+            required: true,
+            default: false
+        }
     },
     {
         timestamps: true

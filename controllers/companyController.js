@@ -20,6 +20,7 @@ const createCompany = async (company_name) => {
             return company
         }else createCompany(company_name)
     }catch(e){
+        res.status(500).json({message: 'Server Error'})
         console.log(e)
     }
 }
@@ -29,6 +30,7 @@ const getCompanies = async (req, res, next) => {
         const companies = await Company.find({})
         return companies
     }catch(e){
+        res.status(500).json({message: 'Server Error'})
         console.log(e)
     }
 }
@@ -43,6 +45,7 @@ const changeRefreshToken = async (req, res, next) => {
             res.status(400).json({message: 'Company Not Found'})
         }
     }catch(e){
+        res.status(500).json({message: 'Server Error'})
         console.log(e)
     }
 }
@@ -57,6 +60,7 @@ const getCompany = async (req, res, next) => {
             res.status(400).json({message: 'Company Not Found'})
         }
     }catch(e){
+        res.status(500).json({message: 'Server Error'})
         console.log(e)
     }
 }
@@ -72,7 +76,23 @@ const changeDHLSetting = async (req, res, next) => {
         }
     }catch(e){
         console.log(e)
+        res.status(500).json({message: 'Server Error'})
     }
 }
 
-module.exports = { createCompany, getCompanies, changeRefreshToken, getCompany, changeDHLSetting }
+const changeLoopReturnsSetting = async (req, res, next) => {
+    try{
+        const { company_code, uses_loop_returns } = req.body
+        const company = await Company.findOneAndUpdate({ company_code }, { uses_loop_returns })
+        if(company){
+            res.status(200).send(company)
+        }else{
+            res.status(400).json({message: 'Company Not Found'})
+        }
+    }catch(e){
+        console.log(e)
+        res.status(500).json({message: 'Server Error'})
+    }
+}
+
+module.exports = { createCompany, getCompanies, changeRefreshToken, getCompany, changeDHLSetting, changeLoopReturnsSetting }
