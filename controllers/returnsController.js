@@ -40,22 +40,15 @@ const updateReturns = async (req, res) => {
     const collection = db.collection('loop-returns-' + req.params.id);
     const exists = await collection.findOne({ id: req.body.id });
     if(exists) {
-        if(req.body.state === 'closed') {
-            await collection.updateOne({ id: req.body.id }, {
-                $set: {
-                    ...req.body,
-                    updatedAt: new Date().toISOString(),
-                    closed: new Date().toISOString()
-                }
-            });
-        }else{
-            await collection.updateOne({ id: req.body.id }, {
-                $set: {
-                    ...req.body,
-                    updatedAt: new Date().toISOString()
-                }
-            });
-        }
+        await collection.updateOne({ id: req.body.id }, {
+            $set: {
+                ...req.body,
+                updatedAt: new Date().toISOString(),
+                closed: req.body.state === 'closed' ? new Date().toISOString() : false,
+                started_transit: (req.body.label_status === 'new' || req.body.label_status === 'delivered') ? new Date().toISOString() : false,
+                received: req.body.label_status === 'delivered' ? new Date().toISOString() : false,
+            }
+        });
         console.log('returns updated')
         res.status(201).send('returns updated');
     }else{
