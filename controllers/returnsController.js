@@ -6,7 +6,7 @@ const getReturns = async (req, res) => {
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
     const data = await collection.find({
-        created_at: {
+        updatedAt: {
             $gte: new Date(startDate).toISOString(),
             $lte: new Date(endDate).toISOString()
         }
