@@ -5,7 +5,7 @@ const getReturns = async (req, res) => {
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
     const data = await collection.find({
-        created_date: {
+        created_at: {
             $gte: new Date(startDate).toISOString(),
             $lte: new Date(endDate).toISOString()
         }
@@ -23,7 +23,9 @@ const insertReturns = async (req, res) => {
             ...req.body,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            closed: false
+            closed: req.body.state === 'closed' ? new Date().toISOString() : false,
+            started_transit: (req.body.label_status === 'new' || req.body.label_status === 'delivered') ? new Date().toISOString() : false,
+            received: req.body.label_status === 'delivered' ? new Date().toISOString() : false,
         });
         console.log('returns inserted')
         res.status(201).send('returns inserted');
