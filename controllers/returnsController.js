@@ -1,6 +1,7 @@
 const { getClient } = require('../utils/connectToMongoDirect');
 
 const getReturns = async (req, res) => {
+    const { startDate, endDate } = req.body;
     const client = getClient();
     const db = client.db();
     const collection = db.collection('loop-returns-' + req.params.id);
