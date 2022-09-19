@@ -25,8 +25,8 @@ const insertReturns = async (req, res) => {
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
             closed: req.body.state === 'closed' ? new Date().toISOString() : false,
-            started_transit: (req.body.label_status === 'new' || req.body.label_status === 'delivered') ? new Date().toISOString() : false,
-            received: req.body.label_status === 'delivered' ? new Date().toISOString() : false,
+            started_transit: req.body.label_status === 'in-transit' ? new Date().toISOString() : exists.started_transit,
+            received: req.body.label_status === 'N/A' ? new Date().toISOString() : false,
         });
         console.log('returns inserted')
         res.status(201).send('returns inserted');
