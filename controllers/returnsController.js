@@ -47,7 +47,7 @@ const updateReturns = async (req, res) => {
                 updatedAt: new Date().toISOString(),
                 closed: req.body.state === 'closed' ? new Date().toISOString() : exists.closed,
                 started_transit: req.body.label_status === 'in-transit' ? new Date().toISOString() : exists.started_transit,
-                received: req.body.label_status === 'delivered' ? new Date().toISOString() : exists.received,
+                received: req.body.label_status === 'N/A' ? new Date().toISOString() : exists.received,
             }
         });
         console.log('returns updated')
