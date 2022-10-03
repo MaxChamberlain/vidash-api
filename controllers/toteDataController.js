@@ -20,7 +20,7 @@ const insertTotes = async (req, res) => {
     const client = getClient();
     const db = client.db();
     const collection = db.collection('totes-' + company_code);
-    const data = await collection.insertOne({...totes, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()});
+    const data = await collection.insertOne({...req.body, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()});
     console.log('totes inserted')
     res.status(201).send({ message: 'Success!' });
 }
