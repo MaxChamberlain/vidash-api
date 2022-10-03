@@ -12,7 +12,6 @@ const getTotes = async (req, res) => {
         }
     }).toArray();
     res.status(201).send(data);
-    res.status(201).send({ message: 'Success!' });
 }
 
 const insertTotes = async (req, res) => {
@@ -22,7 +21,7 @@ const insertTotes = async (req, res) => {
     const collection = db.collection('totes-' + company_code);
     const data = await collection.insertOne({...req.body, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()});
     console.log('totes inserted')
-    res.status(201).send({ message: 'Success!' });
+    res.status(200).send({ message: 'Success' });
 }
 
 module.exports = { getTotes, insertTotes }
